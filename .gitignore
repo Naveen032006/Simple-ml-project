@@ -1,13 +1,10 @@
-
 .venv/
 venv/
 __pycache__/
 *.pyc
+*.db
 .env
 .DS_Store
-
-# Local model artifact
-artifacts/
 
 # Local MLflow tracking files
 mlruns/

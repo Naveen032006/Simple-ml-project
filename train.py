@@ -1,10 +1,18 @@
 
 import os
+import sys
 import joblib
 import pandas as pd
 import dagshub
 import mlflow
 import mlflow.sklearn
+
+# Configure UTF-8 streams on Windows to avoid UnicodeEncodeError when MLflow logs Unicode emojis
+if sys.platform == "win32":
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
+    if hasattr(sys.stderr, "reconfigure"):
+        sys.stderr.reconfigure(encoding="utf-8")
 
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
@@ -67,7 +75,7 @@ def main():
         # 10. Log model to DagsHub's MLflow artifact store
         mlflow.sklearn.log_model(
             sk_model=model,
-            artifact_path="model"
+            name="model"
         )
 
         print("\nModel training completed successfully!")

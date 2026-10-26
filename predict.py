@@ -1,7 +1,15 @@
 
 import os
+import sys
 import joblib
 import pandas as pd
+
+# Configure UTF-8 streams on Windows
+if sys.platform == "win32":
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
+    if hasattr(sys.stderr, "reconfigure"):
+        sys.stderr.reconfigure(encoding="utf-8")
 
 from config import MODEL_PATH
 
@@ -19,9 +27,13 @@ def main():
     print("------------------------")
 
     while True:
-        user_input = input(
-            "Enter study hours (or type 'q' to quit): "
-        ).strip()
+        try:
+            user_input = input(
+                "Enter study hours (or type 'q' to quit): "
+            ).strip()
+        except (EOFError, KeyboardInterrupt):
+            print("\nProgram stopped.")
+            break
 
         if user_input.lower() == "q":
             print("Program stopped.")
